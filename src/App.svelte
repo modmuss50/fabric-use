@@ -66,7 +66,7 @@
       <br />
       <ul>
         <li>
-          <a href="https://fabricmc.net/wiki/tutorial:atlauncher_modpacks">
+          <a href="https://fabricmc.net/wiki/tutorial:install_with_multimc">
             MultiMC
           </a>
         </li>
