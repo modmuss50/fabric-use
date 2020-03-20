@@ -23,10 +23,6 @@
     downloadURL(selectedVersion);
   }
 
-  function downloadExe() {
-    downloadURL(selectedVersion.replace(".jar", ".exe"));
-  }
-
   function downloadURL(url) {
     window.location.href = url;
   }
@@ -72,18 +68,25 @@
     {/if}
 
     <button href="" disabled={!selectedVersion} on:click={downloadJar}>
-      Download installer (Universal/.JAR)
+      Download installer (.jar)
     </button>
 
-    <button disabled={!selectedVersion} on:click={downloadExe}>
-      Download installer (Windows/.EXE)
-    </button>
+    <br />
+    <br />
+    <strong>OR</strong> Download with wget:
     <p>
-      (Please note that the Windows .EXE may show a SmartScreen warning message
-      about an "Unknown publisher". Unfortunately, we cannot currently do
-      anything about this. If it makes you feel uncomfortable, use the .JAR or
-      MultiMC method to install.)
+      <code>wget -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)} {selectedVersion}</code>
     </p>
+    <strong>OR</strong> Download with curl:
+    <p>
+      <code>curl {selectedVersion} -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}</code>
+    </p>
+    <br />
+    Basic CLI usage
+    <p>
+      <code>java -jar {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)} server -downloadMinecraft</code>
+    </p>
+
   {:catch error}
     <p style="color: red">Error: {error.message}</p>
     <p>

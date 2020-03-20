@@ -1,70 +1,101 @@
+<script context="module">
+  import queryString from "query-string";
+
+  const urlQuery = queryString.parse(location.search);
+
+  let initalPage = "installer";
+
+  if (urlQuery.page) {
+    initalPage = urlQuery.page;
+  }
+</script>
+
 <script>
-  import Header from "./Header.svelte";
   import Installer from "./Installer.svelte";
+  import Server from "./Server.svelte";
   import MCUpdater from "./MCUpdater.svelte";
   import Technic from "./Technic.svelte";
 
-  let selectedTab = "installer";
+  let selectedTab = initalPage;
 
   function showInstaller() {
     selectedTab = "installer";
+    updateUrlQuery();
+    return false;
+  }
+
+  function showServer() {
+    selectedTab = "server";
+    updateUrlQuery();
+    return false;
   }
 
   function showMCUpdater() {
     selectedTab = "mcupdater";
+    updateUrlQuery();
+    return false;
   }
 
   function showTechnic() {
     selectedTab = "technic";
+    updateUrlQuery();
+    return false;
+  }
+
+  function updateUrlQuery() {
+    location.search = queryString.stringify({
+      page: selectedTab
+    });
   }
 </script>
 
-<Header />
 <main class="page-content">
   <div class="wrapper">
     <header class="post-header">
       <h1 class="post-title">use</h1>
     </header>
-    <div class="post-content">
-      <p>
-        Make sure to follow the
-        <a href="https://fabricmc.net/wiki/install">
-          installation instructions
-        </a>
-        !
-      </p>
-    </div>
 
     {#if selectedTab == 'installer'}
+      <h2>Minecraft Launcher</h2>
       <Installer />
+    {:else if selectedTab == 'server'}
+      <h2>Minecraft Server</h2>
+      <Server />
     {:else if selectedTab == 'mcupdater'}
+      <h2>MCUpdater</h2>
       <MCUpdater />
-      <br />
-      <hr />
-      <a href="/" on:click={showInstaller}>Back</a>
     {:else if selectedTab == 'technic'}
+      <h2>Technic</h2>
       <Technic />
-      <br />
-      <hr />
-      <a href="/" on:click={showInstaller}>Back</a>
     {:else}
-      <p>Invalid tab selected</p>
+      <p>Invalid tab selected, please select a supported platform.</p>
     {/if}
 
     <br />
+    <p>
+      Make sure to follow the
+      <a href="https://fabricmc.net/wiki/install">installation instructions!</a>
+    </p>
     <p>
       Most mods will also require you to install
       <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
         Fabric (API)
       </a>
-      into the mods folder
+      into the mods folder.
     </p>
-
     <div>
       <br />
-      Other Supported platforms:
+      All Supported platforms:
       <br />
       <ul>
+        <li>
+          <a href="?page=installer" on:click={showInstaller}>
+            Minecraft Launcher
+          </a>
+        </li>
+        <li>
+          <a href="?page=server" on:click={showServer}>Minecraft Server</a>
+        </li>
         <li>
           <a href="https://fabricmc.net/wiki/tutorial:install_with_multimc">
             MultiMC
@@ -77,18 +108,24 @@
           (Modpack Dev)
         </li>
         <li>
-          <a href="#" on:click={showMCUpdater}>MCUpdater</a>
+          <a href="?page=mcupdater" on:click={showMCUpdater}>MCUpdater</a>
           (Modpack Dev)
         </li>
         <li>
-          <a href="#" on:click={showTechnic}>Technic</a>
+          <a href="?page=technic" on:click={showTechnic}>Technic</a>
           (Modpack Dev)
+        </li>
+        <li>
+          <a href="https://github.com/FabricMC/fabric-meta#fabric-meta">
+            Metadata API
+          </a>
+          (Launcher Dev)
         </li>
         <li>
           <a href="https://www.curseforge.com/minecraft/mc-mods/jumploader">
             Twitch
           </a>
-          (Unoffical)
+          (Unofficial)
         </li>
       </ul>
     </div>
