@@ -72,8 +72,7 @@
     {/if}
     <p>
       Make sure to follow the
-      <a href="https://fabricmc.net/wiki/install">installation instructions</a>
-      !
+      <a href="https://fabricmc.net/wiki/install">installation instructions!</a>
     </p>
     <p>
       <strong>
