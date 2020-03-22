@@ -19,18 +19,6 @@
     }
   }
 
-  function downloadJar() {
-    downloadURL(selectedVersion);
-  }
-
-  function downloadExe() {
-    downloadURL(selectedVersion.replace(".jar", ".exe"));
-  }
-
-  function downloadURL(url) {
-    window.location.href = url;
-  }
-
   function showExpertOptions() {
     expertOptions = true;
   }
@@ -65,19 +53,24 @@
         <p>
           {#if latest.stable}Version: {latest.version} (Latest){/if}
           {#if !expertOptions}
-            <a href="#" on:click={showExpertOptions}>Show other versions</a>
+            <a href="javascript:" on:click={showExpertOptions}>
+              Show other versions
+            </a>
           {/if}
         </p>
       {/await}
     {/if}
 
-    <button href="" disabled={!selectedVersion} on:click={downloadJar}>
+    <a class="button" href={selectedVersion}>
       Download installer (Universal/.JAR)
-    </button>
+    </a>
 
-    <button disabled={!selectedVersion} on:click={downloadExe}>
+    <a class="button" href={selectedVersion.replace('.jar', '.exe')}>
       Download installer (Windows/.EXE)
-    </button>
+    </a>
+
+    <br />
+    <br />
     <p>
       (Please note that the Windows .EXE may show a SmartScreen warning message
       about an "Unknown publisher". Unfortunately, we cannot currently do

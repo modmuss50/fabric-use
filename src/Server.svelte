@@ -19,14 +19,6 @@
     }
   }
 
-  function downloadJar() {
-    downloadURL(selectedVersion);
-  }
-
-  function downloadURL(url) {
-    window.location.href = url;
-  }
-
   function showExpertOptions() {
     expertOptions = true;
   }
@@ -61,30 +53,40 @@
         <p>
           {#if latest.stable}Version: {latest.version} (Latest){/if}
           {#if !expertOptions}
-            <a href="#" on:click={showExpertOptions}>Show other versions</a>
+            <a href="javascript:" on:click={showExpertOptions}>
+              Show other versions
+            </a>
           {/if}
         </p>
       {/await}
     {/if}
 
-    <button href="" disabled={!selectedVersion} on:click={downloadJar}>
-      Download installer (.jar)
-    </button>
+    <a class="button" href={selectedVersion}>Download installer (.jar)</a>
 
     <br />
     <br />
-    <strong>OR</strong> Download with wget:
+    <strong>OR</strong>
+    Download with wget:
     <p>
-      <code>wget -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)} {selectedVersion}</code>
+      <code>
+        wget -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        {selectedVersion}
+      </code>
     </p>
-    <strong>OR</strong> Download with curl:
+    <strong>OR</strong>
+    Download with curl:
     <p>
-      <code>curl {selectedVersion} -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}</code>
+      <code>
+        curl {selectedVersion} -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+      </code>
     </p>
     <br />
     Basic CLI usage
     <p>
-      <code>java -jar {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)} server -downloadMinecraft</code>
+      <code>
+        java -jar {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        server -downloadMinecraft
+      </code>
     </p>
 
   {:catch error}

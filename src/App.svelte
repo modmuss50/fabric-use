@@ -56,36 +56,36 @@
     </header>
 
     {#if selectedTab == 'installer'}
-      <h2>Minecraft Launcher</h2>
+      <h2>Installation for: Minecraft Launcher</h2>
       <Installer />
     {:else if selectedTab == 'server'}
-      <h2>Minecraft Server</h2>
+      <h2>Installation for: Minecraft Server</h2>
       <Server />
     {:else if selectedTab == 'mcupdater'}
-      <h2>MCUpdater</h2>
+      <h2>Installation for: MCUpdater</h2>
       <MCUpdater />
     {:else if selectedTab == 'technic'}
-      <h2>Technic</h2>
+      <h2>Installation for: Technic</h2>
       <Technic />
     {:else}
       <p>Invalid tab selected, please select a supported platform.</p>
     {/if}
-
-    <br />
     <p>
       Make sure to follow the
-      <a href="https://fabricmc.net/wiki/install">installation instructions!</a>
+      <a href="https://fabricmc.net/wiki/install">installation instructions</a>
+      !
     </p>
     <p>
-      Most mods will also require you to install
-      <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
-        Fabric (API)
-      </a>
-      into the mods folder.
+      <strong>
+        Most mods will also require you to install
+        <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">
+          Fabric (API)
+        </a>
+        into the mods folder.
+      </strong>
     </p>
     <div>
-      <br />
-      All Supported platforms:
+      <u>Other installation options:</u>
       <br />
       <ul>
         <li>
