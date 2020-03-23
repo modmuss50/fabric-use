@@ -17,36 +17,6 @@
   import Technic from "./Technic.svelte";
 
   let selectedTab = initalPage;
-
-  function showInstaller() {
-    selectedTab = "installer";
-    updateUrlQuery();
-    return false;
-  }
-
-  function showServer() {
-    selectedTab = "server";
-    updateUrlQuery();
-    return false;
-  }
-
-  function showMCUpdater() {
-    selectedTab = "mcupdater";
-    updateUrlQuery();
-    return false;
-  }
-
-  function showTechnic() {
-    selectedTab = "technic";
-    updateUrlQuery();
-    return false;
-  }
-
-  function updateUrlQuery() {
-    location.search = queryString.stringify({
-      page: selectedTab
-    });
-  }
 </script>
 
 <main class="page-content">
@@ -88,12 +58,12 @@
       <br />
       <ul>
         <li>
-          <a href="?page=installer" on:click={showInstaller}>
+          <a href="?page=installer">
             Minecraft Launcher
           </a>
         </li>
         <li>
-          <a href="?page=server" on:click={showServer}>Minecraft Server</a>
+          <a href="?page=server">Minecraft Server</a>
         </li>
         <li>
           <a href="https://fabricmc.net/wiki/tutorial:install_with_multimc">
@@ -107,11 +77,11 @@
           (Modpack Dev)
         </li>
         <li>
-          <a href="?page=mcupdater" on:click={showMCUpdater}>MCUpdater</a>
+          <a href="?page=mcupdater">MCUpdater</a>
           (Modpack Dev)
         </li>
         <li>
-          <a href="?page=technic" on:click={showTechnic}>Technic</a>
+          <a href="?page=technic">Technic</a>
           (Modpack Dev)
         </li>
         <li>
