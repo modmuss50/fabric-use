@@ -61,6 +61,11 @@
       {/await}
     {/if}
 
+    <p>
+      The Minecraft version can be selected in the installer, this download
+      works for every version we support.
+    </p>
+
     <a class="button" href={selectedVersion}>
       Download installer (Universal/.JAR)
     </a>
