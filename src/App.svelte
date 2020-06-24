@@ -96,6 +96,11 @@
           </a>
           (Unofficial)
         </li>
+        <li>
+          <a href="https://gdevs.io/">
+            GDLauncher
+          </a>
+        </li>
       </ul>
     </div>
   </div>
