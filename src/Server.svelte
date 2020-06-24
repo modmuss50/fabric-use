@@ -69,7 +69,7 @@
     Download with wget:
     <p>
       <code>
-        wget -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        wget -O {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
         {selectedVersion}
       </code>
     </p>
