@@ -14,6 +14,7 @@
   import Installer from "./Installer.svelte";
   import Server from "./Server.svelte";
   import MCUpdater from "./MCUpdater.svelte";
+  import ATLauncher from "./ATLauncher.svelte";
   import Technic from "./Technic.svelte";
 
   let selectedTab = initalPage;
@@ -34,6 +35,9 @@
     {:else if selectedTab == 'mcupdater'}
       <h2>Installation for: MCUpdater</h2>
       <MCUpdater />
+    {:else if selectedTab == 'atlauncher'}
+      <h2>Installation for: ATLauncher</h2>
+      <ATLauncher />
     {:else if selectedTab == 'technic'}
       <h2>Installation for: Technic</h2>
       <Technic />
@@ -71,7 +75,7 @@
           </a>
         </li>
         <li>
-          <a href="https://fabricmc.net/wiki/tutorial:atlauncher_modpacks">
+          <a href="?page=atlauncher">
             ATLauncher
           </a>
           (Modpack Dev)
