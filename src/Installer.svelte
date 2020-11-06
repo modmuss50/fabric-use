@@ -53,7 +53,7 @@
         <p>
           {#if latest.stable}Version: {latest.version} (Latest){/if}
           {#if !expertOptions}
-            <a href="javascript:" on:click={showExpertOptions}>
+            <a href={'#'} on:click={showExpertOptions}>
               Show other versions
             </a>
           {/if}
