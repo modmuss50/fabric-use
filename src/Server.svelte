@@ -1,35 +1,30 @@
-<script>
+<script lang="ts">
+  import { Version, getInstallerVersions } from "./main";
+
   let expertOptions = false;
-  let selectedVersion = "";
-  let jarUrl = "#";
-  let exeUrl = "#";
-  let versions = getDownloads();
-
-  async function getDownloads() {
-    const response = await fetch(
-      "https://meta.fabricmc.net/v2/versions/installer"
-    );
-    const data = await response.json();
-
-    if (response.ok) {
-      selectedVersion = data[0].url;
-      return data;
-    } else {
-      throw new Error(data);
-    }
-  }
+  let selectedVersion : Version | undefined;
+  let versions = getInstallerVersions().then((versions) => {
+    selectedVersion = versions[0];
+    return versions;
+  })
 
   function showExpertOptions() {
     expertOptions = true;
   }
 
-  async function getVersion() {
-    const versionList = await versions;
-    for (var i = 0; i < versionList.length; i++) {
-      if (versionList[i].url == selectedVersion) {
-        return versionList[i];
+  function getVersion() : Promise<Version> {
+    return versions.then((versions) => {
+      for(let version of versions) {
+        if(version == selectedVersion) {
+          return version;
+        }
       }
-    }
+      throw new Error("Failed to find version");
+    })
+  }
+
+  function getSelectedVersionStr() : string {
+    return selectedVersion?.url || '';
   }
 </script>
 
@@ -61,7 +56,7 @@
       {/await}
     {/if}
 
-    <a class="button" href={selectedVersion}>Download installer (.jar)</a>
+    <a class="button" href={getSelectedVersionStr()}>Download installer (.jar)</a>
 
     <br />
     <br />
@@ -69,7 +64,7 @@
     Download with wget:
     <p>
       <code>
-        wget -O {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        wget -O {getSelectedVersionStr().substring(getSelectedVersionStr().lastIndexOf('/') + 1)}
         {selectedVersion}
       </code>
     </p>
@@ -77,14 +72,14 @@
     Download with curl:
     <p>
       <code>
-        curl {selectedVersion} -o {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        curl {selectedVersion} -o {getSelectedVersionStr().substring(getSelectedVersionStr().lastIndexOf('/') + 1)}
       </code>
     </p>
     <br />
     Basic CLI usage
     <p>
       <code>
-        java -jar {selectedVersion.substring(selectedVersion.lastIndexOf('/') + 1)}
+        java -jar {getSelectedVersionStr().substring(getSelectedVersionStr().lastIndexOf('/') + 1)}
         server -downloadMinecraft
       </code>
     </p>

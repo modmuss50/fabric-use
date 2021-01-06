@@ -1,18 +1,19 @@
-<script>
+<script lang="ts">
   import LegacyVersion from "./LegacyVersion.svelte";
 
-  let legacyVersion;
+  let legacyVersion : LegacyVersion;
 
-  function copyImportEntry() {
-    legacyVersion.getSelectedVersions(getImportURL);
+  function copyImportEntry():void {
+    legacyVersion.getSelectedVersions()
+     .then(([yarn, loader]) => getImportURL(yarn.version, loader.version))
   }
 
-  function getImportURL(yarnVersion, loaderVersion) {
+  function getImportURL(yarnVersion: string, loaderVersion: string) {
     var url = `<loader type="fabric" yarn="${yarnVersion}" loader="${loaderVersion}"/>`
     copyToClipboard(url);
   }
 
-  function copyToClipboard(text) {
+  function copyToClipboard(text: string) {
     var tad = document.createElement("textarea");
     tad.value = text;
     document.body.appendChild(tad);

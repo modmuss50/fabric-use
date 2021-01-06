@@ -1,4 +1,4 @@
-<script context="module">
+<script context="module" lang="ts">
   import queryString from "query-string";
 
   const urlQuery = queryString.parse(location.search);
@@ -6,11 +6,11 @@
   let initalPage = "installer";
 
   if (urlQuery.page) {
-    initalPage = urlQuery.page;
+    initalPage = urlQuery.page[0];
   }
 </script>
 
-<script>
+<script lang="ts">
   import Installer from "./Installer.svelte";
   import Server from "./Server.svelte";
   import MCUpdater from "./MCUpdater.svelte";

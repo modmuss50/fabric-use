@@ -1,35 +1,26 @@
-<script>
+<script lang="ts">
+  import { Version, getInstallerVersions } from "./main";
+
   let expertOptions = false;
-  let selectedVersion = "";
-  let jarUrl = "#";
-  let exeUrl = "#";
-  let versions = getDownloads();
-
-  async function getDownloads() {
-    const response = await fetch(
-      "https://meta.fabricmc.net/v2/versions/installer"
-    );
-    const data = await response.json();
-
-    if (response.ok) {
-      selectedVersion = data[0].url;
-      return data;
-    } else {
-      throw new Error(data);
-    }
-  }
+  let selectedVersion : Version | undefined;
+  let versions = getInstallerVersions().then((versions) => {
+    selectedVersion = versions[0];
+    return versions;
+  })
 
   function showExpertOptions() {
     expertOptions = true;
   }
 
-  async function getVersion() {
-    const versionList = await versions;
-    for (var i = 0; i < versionList.length; i++) {
-      if (versionList[i].url == selectedVersion) {
-        return versionList[i];
+  function getSelectedVersion(): Promise<Version> {
+    return versions.then((versionList) => {
+      for (var i = 0; i < versionList.length; i++) {
+        if (versionList[i] == selectedVersion) {
+          return versionList[i];
+        }
       }
-    }
+      throw new Error("Failed to find version");
+    });
   }
 </script>
 
@@ -37,7 +28,6 @@
   {#await versions}
     <p>Loading versions..</p>
   {:then data}
-
     {#if expertOptions}
       Installer Version:
       <select bind:value={selectedVersion} style="min-width: 200px">
@@ -49,13 +39,11 @@
       <br />
       <br />
     {:else}
-      {#await getVersion() then latest}
+      {#await getSelectedVersion() then latest}
         <p>
           {#if latest.stable}Version: {latest.version} (Latest){/if}
           {#if !expertOptions}
-            <a href={'#'} on:click={showExpertOptions}>
-              Show other versions
-            </a>
+            <a href={'#'} on:click={showExpertOptions}> Show other versions </a>
           {/if}
         </p>
       {/await}
@@ -66,11 +54,11 @@
       works for every version we support.
     </p>
 
-    <a class="button" href={selectedVersion}>
+    <a class="button" href={selectedVersion?.url || "#"}>
       Download installer (Universal/.JAR)
     </a>
 
-    <a class="button" href={selectedVersion.replace('.jar', '.exe')}>
+    <a class="button" href={selectedVersion?.url?.replace('.jar', '.exe') || "#"}>
       Download installer (Windows/.EXE)
     </a>
 
@@ -90,5 +78,4 @@
       groups.
     </p>
   {/await}
-
 </main>

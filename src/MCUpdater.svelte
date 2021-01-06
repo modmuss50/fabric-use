@@ -1,13 +1,15 @@
-<script>
+<script lang="ts">
   import LegacyVersion from "./LegacyVersion.svelte";
+  import { Version } from "./main";
 
-  let legacyVersion;
+  let legacyVersion: LegacyVersion;
 
   function copyImportEntry() {
-    legacyVersion.getSelectedVersions(getImportURL);
+    legacyVersion.getSelectedVersions()
+    .then(([yarn, loader]) => getImportURL(yarn.version, loader.version))
   }
 
-  function getImportURL(yarnVersion, loaderVersion) {
+  function getImportURL(yarnVersion : string, loaderVersion: string) {
     var url = `https://fabricmc.net/download/mcupdater?yarn=${yarnVersion.replace(
       "+",
       "%2B"
@@ -16,7 +18,7 @@
     copyToClipboard(url);
   }
 
-  function copyToClipboard(text) {
+  function copyToClipboard(text : string) {
     var tad = document.createElement("textarea");
     tad.value = text;
     document.body.appendChild(tad);

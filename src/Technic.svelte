@@ -1,13 +1,14 @@
-<script>
+<script lang="ts">
   import LegacyVersion from "./LegacyVersion.svelte";
 
-  let legacyVersion;
+  let legacyVersion: LegacyVersion;
 
   function downloadFile() {
-    legacyVersion.getSelectedVersions(doFileDownload);
+    legacyVersion.getSelectedVersions()
+    .then(([yarn, loader]) => doFileDownload(yarn.version, loader.version))
   }
 
-  function doFileDownload(yarnVersion, loaderVersion) {
+  function doFileDownload(yarnVersion: string, loaderVersion: string) {
     var url = `https://fabricmc.net/download/technic?yarn=${yarnVersion.replace(
       "+",
       "%2B"

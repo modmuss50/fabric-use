@@ -1,53 +1,49 @@
-<script>
+<script lang="ts">
+   import { Version } from "./main";
+
   let listSnapshots = false;
 
-  let selectedGameVersion = "";
-  let selectedLoaderVersion = "";
+  let selectedGameVersion : Version | undefined;
+  let selectedLoaderVersion : Version;
 
-  let gameVersions = getJson(
-    "https://meta.fabricmc.net/v2/versions/game",
-    data => {
-      //Select the latest stable version by default
-      selectedGameVersion = data.find(
-        version => version.stable || listSnapshots
-      ).version;
-    }
-  );
-  let loaderVersions = getJson(
-    "https://meta.fabricmc.net/v2/versions/loader",
-    data => (selectedLoaderVersion = data[0].version)
-  );
-
-  async function getJson(url, complete = data => {}) {
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (response.ok) {
-      complete(data);
+  let gameVersions = getJson<Version[]>(
+    "https://meta.fabricmc.net/v2/versions/game"
+  ).then((data) => {
+    //Select the latest stable version by default
+    selectedGameVersion =
+      data.find((version) => version.stable || listSnapshots);
       return data;
-    } else {
-      throw new Error(data);
-    }
+  });
+
+  let loaderVersions = getJson<Version[]>(
+    "https://meta.fabricmc.net/v2/versions/loader"
+  ).then((data) => {
+    selectedLoaderVersion = data[0]
+    return data;
+  });
+
+  function getJson<T>(url: string): Promise<T> {
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error();
+    });
   }
 
   //Get the latest yarn version for the provided game version, used for legacy support
-  function getYarnVersion(callback) {
-    getJson(
+  function getYarnVersion() : Promise<Version> {
+    return getJson<Version[]>(
       `https://meta.fabricmc.net/v2/versions/yarn/${selectedGameVersion}?limit=1`
-    )
-      .then(versions => versions[0])
-      .then(version => callback(version));
+    ).then((versions) => versions[0]);
   }
 
-  export function getSelectedVersions(callback) {
-    getYarnVersion(yarnVersion => {
-      callback(yarnVersion.version, selectedLoaderVersion);
-    });
+  export function getSelectedVersions(): Promise<[yarn: Version, loader : Version]> {
+    return getYarnVersion().then((yarn) => [yarn, selectedLoaderVersion])
   }
 </script>
 
 <main>
-
   <label>
     <input type="checkbox" bind:checked={listSnapshots} />
     Show snapshot versions
@@ -95,5 +91,4 @@
       groups.
     </p>
   {/await}
-
 </main>
